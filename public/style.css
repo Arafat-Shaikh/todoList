@@ -122,4 +122,6 @@ label{
     cursor: pointer;
     margin-right: 10px;
 }
-
+.labelText{
+    text-decoration: line-through;
+}
