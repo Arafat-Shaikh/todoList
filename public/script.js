@@ -8,25 +8,31 @@ const taskText = document.querySelector(".task-text");
 const container = document.querySelector(".container");
 
 
-textInput.addEventListener("keyup",(e)=>{
-    if(e.key == "Enter"){
+textInput.addEventListener("keyup", (e) => {
+    if (e.key == "Enter" && textInput.value) {
         taskContainer.innerHTML = "";
         let count = localStorage.length;
         count++;
-        localStorage.setItem(count,textInput.value);
+        localStorage.setItem(count, textInput.value);
         textInput.value = "";
         updateTask();
-
-       
     }
 })
+
+
 let complete = [];
-let incomplete = [];
-function updateTask(){
-    let index = localStorage.length
-    if(localStorage.length){
-        for(let i=1; i<=localStorage.length; i++){
-            let value = localStorage.getItem(i)
+
+
+
+function updateTask() {
+    let index = localStorage.length;
+    let completedTaskIndex = JSON.parse(localStorage.getItem("completed"));
+  
+    let num = 0;
+    if (completedTaskIndex) num = 1;
+    if (index) {
+        for (let i = 1; i <= localStorage.length - num; i++) {
+            let value = localStorage.getItem(i);
             let innerTask = document.createElement("div");
             innerTask.className = "inner-task";
             innerTask.innerHTML = `   
@@ -35,8 +41,8 @@ function updateTask(){
                                     <label id="checkbox${index}" class="myLabel" for="checkbox${index}">${value}</label>
                                     </div>
                                     <i class="fa-solid fa-ellipsis"></i>`
-        
-        
+
+
             taskContainer.appendChild(innerTask);
             textInput.value = "";
             index++;
@@ -44,55 +50,53 @@ function updateTask(){
     }
 
 
-    if(localStorage.length){
+    if (localStorage.length) {
         const checkboxes = document.querySelectorAll(".myCheckbox");
         const labels = document.querySelectorAll(".myLabel");
-    
-        checkboxes.forEach((checkbox)=>{
-            checkbox.addEventListener("click",()=>{
-                labels.forEach((label)=>{
-                    if(checkbox.id == label.id){
+
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener("click", () => {
+                labels.forEach((label) => {
+                    if (checkbox.id == label.id) {
                         label.classList.toggle("labelText");
-                        if(label.classList.contains("labelText")){
+                        if (label.classList.contains("labelText")) {
                             completeTask(label.textContent);
-                            let index = incomplete.indexOf(label.textContent);
-                            if(index){
-                                incomplete.splice(index,1);
-                            }
-                        }
-                        if(!(label.classList.contains("labelText"))){
-                            incomplete.push(label.textContent);
 
-                           let index = complete.indexOf(label.textContent);
-                           if(index){
-                               complete.splice(index,1);
-
-                           }
                         }
-                      
+                        if (!(label.classList.contains("labelText"))) {
+                            let index = complete.indexOf(label.textContent);
+                            complete.splice(index, 1);
+                            updateLocalStorage();
+                        }
+
                     }
                 })
-                console.log(complete);
-                console.log(incomplete);
             })
         })
+
+        completedBtn.addEventListener("click", () => {
+        })
+
     }
- 
+
 }
 
-function completeTask(labelName){
+function completeTask(labelName) {
     complete.push(labelName);
+    updateLocalStorage();
+}
+function updateLocalStorage() {
     let arrayString = JSON.stringify(complete);
-    localStorage.setItem("completed",arrayString);
+    localStorage.removeItem("completed");
+    localStorage.setItem("completed", arrayString);
 }
 
 
 
-completedBtn.addEventListener("click",()=>{
-    
-})
 
-clearBtn.addEventListener("click",()=>{
+
+clearBtn.addEventListener("click", () => {
     localStorage.clear();
     taskContainer.innerHTML = "";
     let div = document.createElement("div");
@@ -102,11 +106,32 @@ clearBtn.addEventListener("click",()=>{
     taskContainer.appendChild(div);
 })
 
-window.onload = () =>{
+window.onload = () => {
     updateTask();
+    let updateCompleteTask = JSON.parse(localStorage.getItem("completed"));
+if (updateCompleteTask) {
+    const checkboxes = document.querySelectorAll(".myCheckbox");
+    const labels = document.querySelectorAll(".myLabel");
+    updateCompleteTask.forEach((element) => {
+        if(checkboxes && labels){
+            checkboxes.forEach((checkbox)=>{
+                labels.forEach((label)=>{
+                    if(checkbox.id == label.id){
+                        if(element == label.textContent){
+                            label.classList.add("labelText");
+                            checkbox.checked = true;
+                            console.log(label.textContent);
+                            complete.push(element);
+                        }
+                    }
+                })
+            })
+        }
+
+    })
+}
 }
 
-  
 
 
 
@@ -129,5 +154,3 @@ window.onload = () =>{
 
 
 
-
- 
