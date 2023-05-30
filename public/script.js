@@ -20,18 +20,17 @@ textInput.addEventListener("keyup", (e) => {
 })
 
 
-let complete = [];
 
 
 
 function updateTask() {
     let index = localStorage.length;
     let completedTaskIndex = JSON.parse(localStorage.getItem("completed"));
-  
+
     let num = 0;
     if (completedTaskIndex) num = 1;
     if (index) {
-        for (let i = 1; i <= localStorage.length - num; i++) {
+        for (let i = 1; i <= (localStorage.length - num); i++) {
             let value = localStorage.getItem(i);
             let innerTask = document.createElement("div");
             innerTask.className = "inner-task";
@@ -40,7 +39,7 @@ function updateTask() {
                                     <input type="checkbox" class="myCheckbox" id="checkbox${index}">
                                     <label id="checkbox${index}" class="myLabel" for="checkbox${index}">${value}</label>
                                     </div>
-                                    <i class="fa-solid fa-ellipsis"></i>`
+                                    `
 
 
             taskContainer.appendChild(innerTask);
@@ -65,9 +64,7 @@ function updateTask() {
 
                         }
                         if (!(label.classList.contains("labelText"))) {
-                            let index = complete.indexOf(label.textContent);
-                            complete.splice(index, 1);
-                            updateLocalStorage();
+                            updateLocalStorage(label.textContent);
                         }
 
                     }
@@ -75,26 +72,43 @@ function updateTask() {
             })
         })
 
-        completedBtn.addEventListener("click", () => {
-        })
+
 
     }
 
 }
 
 function completeTask(labelName) {
+    let complete = [];
+    let completeCompleteTask = JSON.parse(localStorage.getItem("completed"));
+    if(completeCompleteTask){
+         completeCompleteTask.forEach((element)=>{
+            complete.push(element);
+        })        
+    }
     complete.push(labelName);
-    updateLocalStorage();
-}
-function updateLocalStorage() {
     let arrayString = JSON.stringify(complete);
-    localStorage.removeItem("completed");
-    localStorage.setItem("completed", arrayString);
+    localStorage.setItem("completed",arrayString);
+
+
 }
-
-
-
-
+function updateLocalStorage(labelName) {
+    let complete = [];
+    let completeTask = JSON.parse(localStorage.getItem("completed"));
+    if(completeTask){
+        completeTask.forEach((element)=>{
+            complete.push(element)
+        })
+    }
+    for(let i=0; i<complete.length; i++){
+        if(complete[i] == labelName){
+            complete.splice(complete.indexOf(complete[i]));
+            break;
+        }
+    }
+    localStorage.setItem("completed",JSON.stringify(complete));
+  
+}
 
 clearBtn.addEventListener("click", () => {
     localStorage.clear();
@@ -106,32 +120,33 @@ clearBtn.addEventListener("click", () => {
     taskContainer.appendChild(div);
 })
 
+
+
+
 window.onload = () => {
     updateTask();
-    let updateCompleteTask = JSON.parse(localStorage.getItem("completed"));
-if (updateCompleteTask) {
+
     const checkboxes = document.querySelectorAll(".myCheckbox");
     const labels = document.querySelectorAll(".myLabel");
-    updateCompleteTask.forEach((element) => {
-        if(checkboxes && labels){
-            checkboxes.forEach((checkbox)=>{
-                labels.forEach((label)=>{
-                    if(checkbox.id == label.id){
-                        if(element == label.textContent){
-                            label.classList.add("labelText");
-                            checkbox.checked = true;
-                            console.log(label.textContent);
-                            complete.push(element);
+
+    if(checkboxes && labels){
+        let completed = JSON.parse(localStorage.getItem("completed"));
+        if(completed.length){
+            completed.forEach((value)=>{
+                checkboxes.forEach((checkbox)=>{
+                    labels.forEach((label)=>{
+                        if(checkbox.id == label.id){
+                            if(value == label.textContent){
+                                checkbox.checked = true;
+                                label.classList.toggle("labelText");
+                            }
                         }
-                    }
+                    })
                 })
             })
         }
-
-    })
+    }
 }
-}
-
 
 
 
