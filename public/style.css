@@ -1,127 +1,142 @@
 *{
-    padding: 0;
     margin: 0;
-    font-family: "poppins",sans-serif;
+    padding: 0;
     box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
 body{
-    background-color: #5C469C;
-}
-
-
-/* .container{
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    padding: 40px 30px;
-    border-radius: 10px;
-    width: 400px;
-    max-height: 500px;
-    background-color: #fff;
-    overflow-y: auto;
-} */
-.container {
-    position: absolute;
-    left: 50%;
-    top: 20%;
-    transform: translateX(-50%);
-    padding: 40px 30px;
-    border-radius: 10px;
-    width: 400px;
-    max-height: 500px;
-    background-color: #fff;
-  }
-.input-text{
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    border: 1px solid #312f2f;
-    padding: 10px 20px;
-    padding-left: 10px;
-    border-radius: 5px;
-}
-input[type=text]{
     width: 100%;
-    border: none;
-    outline: none;
-    margin-left: 20px;
-    font-size: 16px;
+    height: 100vh;
+    overflow: hidden;
+    background: #411454;
 }
-.status{
-    display: flex;
-    justify-content: space-between;
-}
-button{
-    padding: 3px 8px;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    font-size: 14px;
-}
-.inv-btn{
-    background-color: transparent;
-    outline: none;
-}
-#clearAll-btn{
-    border: none;
-    outline: none;
-    background: #5C469C;
+
+::selection{
     color: #fff;
+    background-color: #1e293b;
 }
 
-.inv-btn:hover{
-    background-color: #ece9e9;
+.container{
+    max-width: 400px;
+    background: #fff;
+    margin: 137px auto;
+    padding: 28px 0 30px;
+    border-radius: 7px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-#clearAll-btn:hover{
-    background-color: #4d3b80;
+.input-text{
+    height: 52px;
+    padding: 0 25px;
+    position: relative;
 }
-.task{
-    margin-top: 20px;
-    max-height: 300px;
-    overflow: auto;
 
+.input-text img{
+    top: 50%;
+    position: absolute;
+    transform: translate(17px, -50%);
 }
-.task::-webkit-scrollbar{
-    width: 6px;
+
+.input-text input{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 1px solid #999;
+    padding: 0 20px 0 53px;
 }
-.task::-webkit-scrollbar-thumb{
-    background-color: #8f7ca7;
-    border-radius: 4px;
+
+.input-text input:focus, .input-text input.active{
+    padding-left: 52px;
+    border: 2px solid #1e293b;
 }
-.task::-webkit-scrollbar-track{
-    background-color: transparent;
+
+.input-text input::placeholder{
+    color: #bfbfbf;
 }
-.task::-webkit-scrollbar-thumb:hover {
-    background-color: #511b72;
-  }
-.task h5{
-    color: #908e8e;
-    font-size: 15px;
-    text-align: center;
-    margin-top: 10px;
-}
-.inner-task{
+
+.controls, li{
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    margin: 15px 0;
-    border-top: 1px solid #ccc;
-    padding-top: 15px;
 }
-.task-name{
-    display: flex;
-    align-items: center;
+
+.controls{
+    padding: 18px 25px;
+    border-bottom: 1px solid #ccc;
 }
-label{
-    margin-left: 10px;
-}
-.fa-ellipsis{
+
+.filters span{
+    margin: 0 8px;
+    font-size: 17px;
+    color: #444;
     cursor: pointer;
-    margin-right: 10px;
 }
-.labelText{
-    text-decoration: line-through;
+
+.filters span:first-child{
+    margin-left: 0;
+}
+
+.filters span.active{
+    color: #7d10ac;
+}
+
+.controls .clear-btn{
+    border: none;
+    opacity: 0.6;
+    outline: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 7px 13px;
+    border-radius: 4px;
+    background: #1e293b;
+    letter-spacing: 0.3px;
+    pointer-events: none;
+    transition: transform 0.99s ease;
+}
+
+.clear-btn.active{
+    opacity:  0.9;
+    pointer-events: auto;
+}
+
+.clear-btn:active{
+    transform: scale(0.93);
+}
+
+.task-box{
+    margin-top: 20px;
+    margin-right: 5px;
+    padding: 0 20px 10px 25px;
+}
+
+.task-box.overflow{
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.task-box::-webkit-scrollbar{
+    width: 5px;
+}
+
+.task-box::-webkit-scrollbar-track{
+    background: #f1f1f1;
+    border-radius: 25px;
+}
+
+.task-box::-webkit-scrollbar-thumb{
+    background: #e6e6e6;
+    border-radius: 25px;
+}
+
+.task-box .task{
+    list-style: none;
+    font-size: 17px;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    align-items: flex-start;
+    border-bottom: 1px solid #ccc;
 }

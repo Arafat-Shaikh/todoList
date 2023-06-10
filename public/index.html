@@ -10,23 +10,21 @@
 </head>
 <body>  
     <div class="container">
-        <div class="inner-container">
-            <div class="input-text">
-                <input id="text-input" type="text" placeholder="Add a new task">
-            </div>
-
-            <div class="status">
-                <button class="inv-btn" id="all">All</button>
-                <button class="inv-btn" id="pending">Pending</button>
-                <button class="inv-btn" id="completed">Completed</button>
-                <button id="clearAll-btn">Clear All</button>
-            </div>
+        <div class="input-text">
+            <img src="bars-icon.svg">
+            <input type="text" placeholder="Add a new task">
         </div>
-        <div class="task">
-           
-
-          
+        
+        <div class="controls">
+            <div class="filters">
+                <span id="all" class="active">All</span>
+                <span id="pending" class="active">Pending</span>
+                <span id="completed" class="active">Completed</span>
+            </div>
+            <button class="clear-btn">Clear</button>
         </div>
+     
+        <ul class="task-box"></ul>
     </div>
 
 
