@@ -11,7 +11,10 @@ const container = document.querySelector(".container");
 textInput.addEventListener("keyup", (e) => {
     if (e.key == "Enter" && textInput.value) {
         taskContainer.innerHTML = "";
-        let count = localStorage.length;
+        let completed = localStorage.getItem("completed");
+        let num = 0;
+        if(completed) num = 1;
+        let count = localStorage.length-num;
         count++;
         localStorage.setItem(count, textInput.value);
         textInput.value = "";
@@ -31,6 +34,7 @@ function updateTask() {
     if (completedTaskIndex) num = 1;
     if (index) {
         for (let i = 1; i <= (localStorage.length - num); i++) {
+            console.log(localStorage.length)
             let value = localStorage.getItem(i);
             let innerTask = document.createElement("div");
             innerTask.className = "inner-task";
@@ -58,6 +62,7 @@ function updateTask() {
             checkbox.addEventListener("click", () => {
                 labels.forEach((label) => {
                     if (checkbox.id == label.id) {
+                        
                         label.classList.toggle("labelText");
                         if (label.classList.contains("labelText")) {
                             completeTask(label.textContent);
@@ -131,20 +136,26 @@ window.onload = () => {
 
     if(checkboxes && labels){
         let completed = JSON.parse(localStorage.getItem("completed"));
-        if(completed.length){
-            completed.forEach((value)=>{
-                checkboxes.forEach((checkbox)=>{
-                    labels.forEach((label)=>{
-                        if(checkbox.id == label.id){
-                            if(value == label.textContent){
-                                checkbox.checked = true;
-                                label.classList.toggle("labelText");
+        try{
+            if(completed.length){
+                completed.forEach((value)=>{
+                    checkboxes.forEach((checkbox)=>{
+                        labels.forEach((label)=>{
+                            if(checkbox.id == label.id){
+                                if(value == label.textContent){
+                                    checkbox.checked = true;
+                                    label.classList.add("labelText");
+                                }
                             }
-                        }
+                        })
                     })
                 })
-            })
+            }
         }
+        catch{
+            console.log("NO Task Completed YET");
+        }
+       
     }
 }
 
